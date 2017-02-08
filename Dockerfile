@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM ubuntu:latest
 MAINTAINER Tobias Lindholm <tobias.lindholm@antob.se>
 VOLUME /var/log/
 # Set the time zone
@@ -20,8 +20,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 
-COPY backups-cron /etc/crontab
-RUN chmod 644 /etc/crontab
+ADD backups-cron /etc/cron.d/backups-cron
+RUN chmod 0644 /etc/cron.d/backups-cron
 
 ADD backups.sh /backups.sh
 ADD start.sh /start.sh
