@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM phusion/baseimage
 MAINTAINER Tobias Lindholm <tobias.lindholm@antob.se>
 VOLUME /var/log/
 # Set the time zone
@@ -15,13 +15,13 @@ RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys "42F3E95A2C4F
 RUN echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.2 main" > /etc/apt/sources.list.d/mongodb-org.list
 
 # Install packages
-RUN apt-get update && \
-    apt-get install -y rsyslog cron vim mongodb-org-tools --no-install-recommends && \
+RUN apt-get update && mongodb-org-tools --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
 
-COPY backups-cron /etc/crontab
-RUN chmod 0644 /etc/crontab
+ADD backups-cron /etc/cron.d/backups-cron
+RUN chmod 600 /etc/cron.d/backups-cron
+RUN chmod 600 /etc/crontab
 
 ADD backups.sh /backups.sh
 ADD start.sh /start.sh
