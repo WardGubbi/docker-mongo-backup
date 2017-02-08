@@ -8,7 +8,7 @@ fi
 # Check if each var is declared and if not,
 # set a sensible default
 if [ -z "${MONGODB_URL}" ]; then
-  MONGODB_URL=mongodb://localhost:27017/app
+  MONGODB_URL=mongodb://mongononident-0.mongononident.mongo,mongononident-1.mongononident.mongo,mongononident-2.mongononident.mongo:27017/meteor?replicaSet=rs0
 fi
 
 # Parse DB URL
@@ -27,9 +27,14 @@ if [ -z "${MONGODB_HOST}" ]; then
   MONGODB_HOST=$host
 fi
 
-if [ -z "${MONGODB_DATABASE}" ]; then
-  MONGODB_DATABASE=$database
+if [ -z "${MONGODB_DATABASE_FROM}" ]; then
+  MONGODB_DATABASE_FROM=$database
 fi
+
+if [ -z "${MONGODB_DATABASE_TO}" ]; then
+  MONGODB_DATABASE_TO="${database}-staging"
+fi
+
 
 # Now write these all to case file that can be sourced
 # by then cron job - we need to do this because
@@ -38,7 +43,8 @@ fi
 
 echo "
 export MONGODB_HOST=$MONGODB_HOST
-export MONGODB_DATABASE=$MONGODB_DATABASE
+export MONGODB_DATABASE_FROM=$MONGODB_DATABASE_FROM
+export MONGODB_DATABASE_TO=$MONGODB_DATABASE_TO
  " > /mongodb_env.sh
 
 echo "[MONGO_BACKUP] Starting backup script."
