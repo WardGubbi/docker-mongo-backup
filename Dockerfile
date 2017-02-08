@@ -21,6 +21,7 @@ RUN apt-get update && \
 
 # Create the cron log file
 RUN touch /var/log/cron.log
+RUN touch /tmp/backupandcopylog
 
 ADD backups-cron /etc/cron.d/backups-cron
 ADD backups.sh /backups.sh
