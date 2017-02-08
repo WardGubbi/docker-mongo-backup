@@ -1,24 +1,8 @@
-FROM phusion/baseimage
-MAINTAINER Tobias Lindholm <tobias.lindholm@antob.se>
-VOLUME /var/log/
-# Set the time zone
-ENV TZ Europe/Stockholm
+FROM alpine:3.3
 
-RUN echo "Europe/Brussels" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
-
-# Add MongoDB 3.2 APT repo
-#
-# pub   4096R/EA312927 2015-10-09 [expires: 2017-10-08]
-#       Key fingerprint = 42F3 E95A 2C4F 0827 9C49  60AD D68F A50F EA31 2927
-# uid                  MongoDB 3.2 Release Signing Key <packaging@mongodb.com>
-#
-RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys "42F3E95A2C4F08279C4960ADD68FA50FEA312927"
-RUN echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.2 main" > /etc/apt/sources.list.d/mongodb-org.list
-
-# Install packages
-RUN apt-get update && apt-get install mongodb-org-tools --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache mongodb-tools
 
 ADD backupandcopy.sh /backupandcopy.sh
+COPY backupcronfile /var/spool/cron/crontabs/root 
 
-CMD ["/backupandcopy.sh"]
+CMD crond -l 2 -f  
