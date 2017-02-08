@@ -1,6 +1,6 @@
 FROM debian:jessie
 MAINTAINER Tobias Lindholm <tobias.lindholm@antob.se>
-
+VOLUME /var/log/
 # Set the time zone
 ENV TZ Europe/Stockholm
 RUN echo "Europe/Stockholm" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
@@ -19,9 +19,6 @@ RUN apt-get update && \
     apt-get install -y rsyslog cron vim mongodb-org-tools --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Create the cron log file
-RUN touch /var/log/cron.log
-RUN touch /tmp/backupandcopylog
 
 ADD backups-cron /etc/cron.d/backups-cron
 ADD backups.sh /backups.sh
