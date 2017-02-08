@@ -20,7 +20,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 
-ADD backups-cron /etc/cron.d/backups-cron
+COPY backups-cron /etc/crontab
+RUN chmod 644 /etc/crontab
+
 ADD backups.sh /backups.sh
 ADD start.sh /start.sh
 
