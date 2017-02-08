@@ -25,7 +25,6 @@ RUN echo "$SCHEDULE /backups.sh"> /etc/cron.d/cronschedule
 RUN chmod -R 644 /etc/cron.d/
 RUN find /etc/cron.d/ -type f -print0 | xargs -0 dos2unix
 
-ADD backups.sh /backups.sh
-ADD start.sh /start.sh
+ADD backupandcopy.sh /backupandcopy.sh
 
-CMD ["/start.sh"]
+CMD ["/backupandcopy.sh"]
