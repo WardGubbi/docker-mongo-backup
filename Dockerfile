@@ -21,9 +21,8 @@ RUN echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.2 main" > 
 RUN apt-get update && apt-get install mongodb-org-tools --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-RUN echo "$SCHEDULE root /backups.sh"> /etc/crontab 
-
-RUN chmod 600 /etc/crontab
+RUN echo "$SCHEDULE root /backups.sh"> /cronschedule 
+RUN crontab /cronschedule
 
 ADD backups.sh /backups.sh
 ADD start.sh /start.sh
