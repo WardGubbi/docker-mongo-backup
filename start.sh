@@ -49,4 +49,4 @@ export MONGODB_DATABASE_TO=$MONGODB_DATABASE_TO
  " > /mongodb_env.sh
 echo "[MONGO_BACKUP] Starting backup script."
 
-tail -f /var/log/cron.log
+touch /var/log/cron.log && tail -f /var/log/cron.log
