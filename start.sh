@@ -49,5 +49,5 @@ export MONGODB_DATABASE_TO=$MONGODB_DATABASE_TO
 
 echo "[MONGO_BACKUP] Starting backup script."
 
-# Now launch cron and rsyslogd. Tail logs in the foreground
-rsyslogd && cron && tail -fq /var/log/syslog /var/log/cron.log
+# Now launch cron. Tail logs in the foreground
+cron && tail -fq /tmp/backupandcopylog
