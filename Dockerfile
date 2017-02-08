@@ -15,7 +15,7 @@ RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys "42F3E95A2C4F
 RUN echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.2 main" > /etc/apt/sources.list.d/mongodb-org.list
 
 # Install packages
-RUN apt-get update && mongodb-org-tools --no-install-recommends && \
+RUN apt-get update && apt-get install mongodb-org-tools --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
 
