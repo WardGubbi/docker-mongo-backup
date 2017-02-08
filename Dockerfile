@@ -21,4 +21,5 @@ COPY backupcronfile  /etc/cron.d/backups-cron
 
 VOLUME ["/var/log/"]
 
+CMD touch /var/log/cron.log
 CMD cron -f  
