@@ -22,6 +22,7 @@ user="$(echo $url | grep @ | cut -d@ -f1)"
 host="$(echo ${url/$user@/} | cut -d/ -f1)"
 # extract the DB name
 database="$(echo $url | grep / | cut -d/ -f2-)"
+database="$(echo $database |  cut -d? -f1)" 
 
 if [ -z "${MONGODB_HOST}" ]; then
   MONGODB_HOST=$host
@@ -35,6 +36,7 @@ if [ -z "${MONGODB_DATABASE_TO}" ]; then
   MONGODB_DATABASE_TO="${database}-staging"
 fi
 
+echo "Host $MONGODB_HOST , DBFrom $MONGODB_DATABASE_FROM , DBTo $MONGODB_DATABASE_TO"
 
 # Now write these all to case file that can be sourced
 # by then cron job - we need to do this because
@@ -46,8 +48,7 @@ export MONGODB_HOST=$MONGODB_HOST
 export MONGODB_DATABASE_FROM=$MONGODB_DATABASE_FROM
 export MONGODB_DATABASE_TO=$MONGODB_DATABASE_TO
  " > /mongodb_env.sh
-
 echo "[MONGO_BACKUP] Starting backup script."
 
 # Now launch cron. Tail logs in the foreground
-cron && tail -fq /tmp/backupandcopylog
+cron && tail -fq /var/log/cron.log
