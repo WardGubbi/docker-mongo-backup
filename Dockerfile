@@ -3,10 +3,8 @@ MAINTAINER Tobias Lindholm <tobias.lindholm@antob.se>
 VOLUME /var/log/
 # Set the time zone
 ENV TZ Europe/Stockholm
-ENV SCHEDULE "* * * * *"
 
-
-RUN echo "Europe/Stockholm" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
+RUN echo "Europe/Brussels" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
 
 # Add MongoDB 3.2 APT repo
 #
@@ -18,12 +16,8 @@ RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys "42F3E95A2C4F
 RUN echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.2 main" > /etc/apt/sources.list.d/mongodb-org.list
 
 # Install packages
-RUN apt-get update && apt-get install mongodb-org-tools dos2unix --no-install-recommends && \
+RUN apt-get update && apt-get install mongodb-org-tools --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
-
-RUN echo "$SCHEDULE /backups.sh"> /etc/cron.d/cronschedule 
-RUN chmod -R 644 /etc/cron.d/
-RUN find /etc/cron.d/ -type f -print0 | xargs -0 dos2unix
 
 ADD backupandcopy.sh /backupandcopy.sh
 
