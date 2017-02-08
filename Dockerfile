@@ -3,6 +3,9 @@ MAINTAINER Tobias Lindholm <tobias.lindholm@antob.se>
 VOLUME /var/log/
 # Set the time zone
 ENV TZ Europe/Stockholm
+ENV SCHEDULE "* * * * *"
+
+
 RUN echo "Europe/Stockholm" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
 
 # Add MongoDB 3.2 APT repo
@@ -18,9 +21,8 @@ RUN echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.2 main" > 
 RUN apt-get update && apt-get install mongodb-org-tools --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
+RUN echo "$SCHEDULE root /backups.sh"> /etc/crontab 
 
-ADD backups-cron /etc/cron.d/backups-cron
-RUN chmod 600 /etc/cron.d/backups-cron
 RUN chmod 600 /etc/crontab
 
 ADD backups.sh /backups.sh
