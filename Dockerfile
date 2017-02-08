@@ -1,9 +1,4 @@
-FROM unocha/alpine-base-python3
-
-RUN  apk add mongodb-tools \
-        --update-cache \
-        --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-    rm -rf /var/lib/apk/*
+FROM zuolan/mongodb-tools
 
 ADD backupandcopy.sh /backupandcopy.sh
 COPY backupcronfile /var/spool/cron/crontabs/root 
