@@ -8,7 +8,7 @@ fi
 # Check if each var is declared and if not,
 # set a sensible default
 if [ -z "${MONGODB_URL}" ]; then
-  MONGODB_URL=mongodb://mongononident-0.mongononident.mongo,mongononident-1.mongononident.mongo,mongononident-2.mongononident.mongo:27017/meteor?replicaSet=rs0
+  MONGODB_URL=mongodb://mongononident-0.mongononident.mongo:27017/meteor
 fi
 
 # Parse DB URL
@@ -22,7 +22,6 @@ user="$(echo $url | grep @ | cut -d@ -f1)"
 host="$(echo ${url/$user@/} | cut -d/ -f1)"
 # extract the DB name
 database="$(echo $url | grep / | cut -d/ -f2-)"
-database="$(echo $database |  cut -d? -f1)" 
 
 if [ -z "${MONGODB_HOST}" ]; then
   MONGODB_HOST=$host
