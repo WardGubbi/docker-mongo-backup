@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM unocha/alpine-base-python3
 
 RUN  apk add mongodb-tools \
         --update-cache \
